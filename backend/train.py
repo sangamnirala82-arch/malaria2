@@ -153,13 +153,15 @@ def train_model():
     for metric_name, value in zip(model.metrics_names, test_results):
         print(f"{metric_name}: {value:.4f}")
     
-    # Save final model
-    final_model_path = os.path.join(MODEL_SAVE_PATH, 'malaria_model_final.h5')
-    model.save(final_model_path)
-    print(f"\nFinal model saved to: {final_model_path}")
+    # Note: best_model.h5 is already saved by ModelCheckpoint callback
+    # It contains the model with the best validation accuracy
+    best_model_path = os.path.join(MODEL_SAVE_PATH, 'best_model.h5')
+    print(f"\n✅ Best model saved to: {best_model_path}")
+    print("   (Saved automatically by ModelCheckpoint during training)")
     
-    # Save model to wandb
-    wandb.save(final_model_path)
+    # Save best model to wandb
+    if os.path.exists(best_model_path):
+        wandb.save(best_model_path)
     
     # Finish wandb run
     wandb.finish()
