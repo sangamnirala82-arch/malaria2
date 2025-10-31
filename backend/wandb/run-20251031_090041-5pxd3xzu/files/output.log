@@ -1,0 +1,70 @@
+WandB initialized successfully!
+
+Loading datasets...
+Loading malaria dataset from TensorFlow Datasets...
+WARNING:absl:Variant folder /root/tensorflow_datasets/malaria/1.0.0 has no dataset_info.json
+Downloading and preparing dataset Unknown size (download: Unknown size, generated: Unknown size, total: Unknown size) to /root/tensorflow_datasets/malaria/1.0.0...
+Extraction completed...: 100%|██████████| 27560/27560 [01:05<00:00, 419.10 file/s]
+Dl Size...: 100%|██████████| 337/337 [01:05<00:00,  5.12 MiB/s] 
+Dl Completed...: 100%|██████████| 1/1 [01:05<00:00, 65.76s/ url]00, 1137.03 file/s] 
+                                                                        
+                                                                                                                                                               
+Dataset malaria downloaded and prepared to /root/tensorflow_datasets/malaria/1.0.0. Subsequent calls will reuse this data.
+Dataset loaded successfully. Total samples: 27558
+Preparing datasets with augmentation and batching...
+Datasets prepared successfully!
+Train dataset: <_PrefetchDataset element_spec=(TensorSpec(shape=(None, 224, 224, 3), dtype=tf.float32, name=None), TensorSpec(shape=(None,), dtype=tf.int64, name=None))>
+Val dataset: <_BatchDataset element_spec=(TensorSpec(shape=(None, 224, 224, 3), dtype=tf.float32, name=None), TensorSpec(shape=(None,), dtype=tf.int64, name=None))>
+Test dataset: <_BatchDataset element_spec=(TensorSpec(shape=(None, 224, 224, 3), dtype=tf.float32, name=None), TensorSpec(shape=(None,), dtype=tf.int64, name=None))>
+
+Creating model...
+Model: "LeNet_Malaria_Detector"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Layer (type)                    ┃ Output Shape           ┃       Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ conv2d (Conv2D)                 │ (None, 222, 222, 6)    │           168 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization             │ (None, 222, 222, 6)    │            24 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ max_pooling2d (MaxPooling2D)    │ (None, 111, 111, 6)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (Dropout)               │ (None, 111, 111, 6)    │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ conv2d_1 (Conv2D)               │ (None, 109, 109, 16)   │           880 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization_1           │ (None, 109, 109, 16)   │            64 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ max_pooling2d_1 (MaxPooling2D)  │ (None, 54, 54, 16)     │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ flatten (Flatten)               │ (None, 46656)          │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense (Dense)                   │ (None, 100)            │     4,665,700 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization_2           │ (None, 100)            │           400 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_1 (Dropout)             │ (None, 100)            │             0 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (Dense)                 │ (None, 10)             │         1,010 │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ batch_normalization_3           │ (None, 10)             │            40 │
+│ (BatchNormalization)            │                        │               │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_2 (Dense)                 │ (None, 1)              │            11 │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+ Total params: 4,668,297 (17.81 MB)
+ Trainable params: 4,668,033 (17.81 MB)
+ Non-trainable params: 264 (1.03 KB)
+
+Compiling model...
+Model compiled successfully!
+
+Starting training...
+Training for 5 epochs
+Batch size: 32
+Learning rate: 0.001
+============================================================
+Epoch 1/5
+[1m 36/689[0m [32m━[0m[37m━━━━━━━━━━━━━━━━━━━[0m [1m7:21[0m 676ms/step - accuracy: 0.6124 - auc: 0.6425 - fn: 97.8611 - fp: 126.4444 - loss: 0.7174 - precision: 0.6142 - recall: 0.6636 - tn: 154.8611 - tp: 212.8333
