@@ -21,6 +21,11 @@ CONFIG = {
     "POOL_SIZE": 2,
     "N_DENSE_1": 100,
     "N_DENSE_2": 10,
+    # Augmentation settings
+    "USE_AUGMENTATION": True,
+    "AUGMENTATION_TYPE": "basic",  # Options: "basic", "mixup", "cutmix", "albumentations", "repeated"
+    "MIXUP_ALPHA": 0.2,
+    "CUTMIX_ALPHA": 0.2,
 }
 
 # Data Split Ratios
