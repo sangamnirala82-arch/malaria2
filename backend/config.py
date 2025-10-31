@@ -28,6 +28,25 @@ TRAIN_RATIO = 0.8
 VAL_RATIO = 0.1
 TEST_RATIO = 0.1
 
+# ============================================================================
+# ADVANCED AUGMENTATION SETTINGS (NEW!)
+# ============================================================================
+# Set to True to enable advanced augmentation techniques for higher accuracy
+# Note: May increase training time by 20-40%
+
+USE_ADVANCED_AUGMENTATION = False  # Set to True to enable
+
+# Choose augmentation method (if USE_ADVANCED_AUGMENTATION = True)
+# Options: 'mixup', 'cutmix', 'albumentations', 'all'
+AUGMENTATION_METHOD = 'mixup'  # Change to 'cutmix', 'albumentations', or 'all'
+
+# Augmentation parameters
+MIXUP_ALPHA = 0.2       # MixUp mixing strength (0.2 recommended)
+CUTMIX_ALPHA = 1.0      # CutMix mixing strength (1.0 recommended)
+ALBUMENTATIONS_MODE = 'medical'  # Options: 'medical' or 'aggressive'
+
+# ============================================================================
+
 # Paths
 MODEL_SAVE_PATH = "./models/"
 LOGS_PATH = "./logs/"
