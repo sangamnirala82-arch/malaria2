@@ -1,0 +1,27 @@
+{
+  "os": "Linux-6.6.97+-aarch64-with-glibc2.36",
+  "python": "CPython 3.11.14",
+  "startedAt": "2025-10-31T09:00:41.853691Z",
+  "program": "/app/backend/train.py",
+  "codePath": "backend/train.py",
+  "codePathLocal": "train.py",
+  "git": {
+    "commit": "79d2f2b528fa062343b6d71bdc3206b263ccaa3e"
+  },
+  "email": "sangamnirala2004@gmail.com",
+  "root": "/app/backend",
+  "host": "agent-env-b2f0a267-b3ca-4e49-b026-40c896c7cc2e",
+  "executable": "/root/.venv/bin/python",
+  "cpu_count": 4,
+  "cpu_count_logical": 4,
+  "disk": {
+    "/": {
+      "total": "101136764928",
+      "used": "15102812160"
+    }
+  },
+  "memory": {
+    "total": "16751775744"
+  },
+  "writerId": "oi0evwn4kfh1y3upvzgb9o0s9orni6qy"
+}
