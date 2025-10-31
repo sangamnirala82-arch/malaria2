@@ -4,6 +4,12 @@ import tensorflow as tf
 import tensorflow_datasets as tfds
 from config import CONFIG, TRAIN_RATIO, VAL_RATIO, TEST_RATIO
 
+# Import augmentation modules
+from data_augmentation.mixup import create_mixup_dataset
+from data_augmentation.cutmix import create_cutmix_dataset
+from data_augmentation.albumentations_transforms import create_albumentations_dataset
+from data_augmentation.repeating_the_dataset import create_repeated_dataset
+
 
 def load_dataset():
     """Load malaria dataset from TensorFlow Datasets"""
