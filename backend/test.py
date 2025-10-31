@@ -18,7 +18,21 @@ from data_loader import get_prepared_datasets
 class MalariaModelTester:
     def __init__(self, model_path=None):
         """Initialize the tester with optional model path"""
-        self.model_path = model_path or os.path.join(MODEL_SAVE_PATH, 'malaria_model_final.h5')
+        # Default to best_model.h5 (best validation accuracy during training)
+        # Fallback to malaria_model_final.h5 if best_model doesn't exist
+        if model_path is None:
+            best_model_path = os.path.join(MODEL_SAVE_PATH, 'best_model.h5')
+            final_model_path = os.path.join(MODEL_SAVE_PATH, 'malaria_model_final.h5')
+            
+            if os.path.exists(best_model_path):
+                self.model_path = best_model_path
+            elif os.path.exists(final_model_path):
+                self.model_path = final_model_path
+            else:
+                self.model_path = best_model_path  # Will show error later
+        else:
+            self.model_path = model_path
+            
         self.model = None
         self.dataset_info = None
         self.test_dataset = None
