@@ -61,16 +61,44 @@ def augment_layer(image, label):
 
 def prepare_datasets(train_dataset, val_dataset, test_dataset, batch_size):
     """Prepare datasets with batching and prefetching"""
-    print("Preparing datasets with augmentation and batching...")
+    augmentation_type = CONFIG.get('AUGMENTATION_TYPE', 'basic')
+    use_augmentation = CONFIG.get('USE_AUGMENTATION', True)
     
-    # Training dataset with augmentation
-    train_dataset = (
-        train_dataset
-        .shuffle(buffer_size=1024, reshuffle_each_iteration=True)
-        .map(augment_layer, num_parallel_calls=tf.data.AUTOTUNE)
-        .batch(batch_size)
-        .prefetch(tf.data.AUTOTUNE)
-    )
+    print(f"Preparing datasets with augmentation type: {augmentation_type}")
+    
+    # Prepare training dataset based on augmentation type
+    if not use_augmentation:
+        print("Using basic preprocessing without augmentation...")
+        train_dataset = (
+            train_dataset
+            .shuffle(buffer_size=1024, reshuffle_each_iteration=True)
+            .map(resize_rescale, num_parallel_calls=tf.data.AUTOTUNE)
+            .batch(batch_size)
+            .prefetch(tf.data.AUTOTUNE)
+        )
+    elif augmentation_type == 'mixup':
+        print("Using MixUp augmentation...")
+        alpha = CONFIG.get('MIXUP_ALPHA', 0.2)
+        train_dataset = create_mixup_dataset(train_dataset, batch_size, alpha)
+    elif augmentation_type == 'cutmix':
+        print("Using CutMix augmentation...")
+        alpha = CONFIG.get('CUTMIX_ALPHA', 0.2)
+        train_dataset = create_cutmix_dataset(train_dataset, batch_size, alpha)
+    elif augmentation_type == 'albumentations':
+        print("Using Albumentations augmentation...")
+        train_dataset = create_albumentations_dataset(train_dataset, batch_size)
+    elif augmentation_type == 'repeated':
+        print("Using Repeated Dataset augmentation (5x)...")
+        train_dataset = create_repeated_dataset(train_dataset, batch_size)
+    else:  # 'basic' or default
+        print("Using basic augmentation...")
+        train_dataset = (
+            train_dataset
+            .shuffle(buffer_size=1024, reshuffle_each_iteration=True)
+            .map(augment_layer, num_parallel_calls=tf.data.AUTOTUNE)
+            .batch(batch_size)
+            .prefetch(tf.data.AUTOTUNE)
+        )
     
     # Validation dataset without augmentation
     val_dataset = (
