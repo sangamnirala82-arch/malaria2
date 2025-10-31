@@ -34,7 +34,7 @@ TEST_RATIO = 0.1
 # Set to True to enable advanced augmentation techniques for higher accuracy
 # Note: May increase training time by 20-40%
 
-USE_ADVANCED_AUGMENTATION = False  # Set to True to enable
+USE_ADVANCED_AUGMENTATION = True  # Set to True to enable
 
 # Choose augmentation method (if USE_ADVANCED_AUGMENTATION = True)
 # Options: 'mixup', 'cutmix', 'albumentations', 'all'
