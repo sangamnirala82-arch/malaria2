@@ -46,12 +46,28 @@ class MalariaModelTester:
         
         if not os.path.exists(self.model_path):
             print(f"❌ Model not found at: {self.model_path}")
-            print("\nAvailable options:")
+            print("\nAvailable models in ./models/:")
+            models_dir = MODEL_SAVE_PATH
+            if os.path.exists(models_dir):
+                model_files = [f for f in os.listdir(models_dir) if f.endswith('.h5')]
+                if model_files:
+                    for model_file in model_files:
+                        print(f"  - {model_file}")
+                else:
+                    print("  (No .h5 model files found)")
+            print("\nOptions:")
             print("1. Train the model first: python train.py")
             print("2. Or run quick training test: python test.py --quick-train")
+            print("3. Or specify a model: python test.py --model-path ./models/your_model.h5")
             return False
         
         print(f"📂 Loading model from: {self.model_path}")
+        model_name = os.path.basename(self.model_path)
+        if 'best_model' in model_name:
+            print("   ℹ️  Using best_model.h5 (best validation accuracy during training)")
+        elif 'final' in model_name:
+            print("   ℹ️  Using malaria_model_final.h5 (final training state)")
+        
         self.model = tf.keras.models.load_model(self.model_path)
         print("✅ Model loaded successfully!")
         print(f"   Model has {self.model.count_params():,} parameters")
