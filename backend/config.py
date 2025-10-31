@@ -10,7 +10,7 @@ WANDB_ENTITY = "sangamnirala2004-d-d-beyond"
 # Model Hyperparameters
 CONFIG = {
     "LEARNING_RATE": 0.001,
-    "N_EPOCHS": 5,
+    "N_EPOCHS": 2,  # Reduced for quick test
     "BATCH_SIZE": 32,
     "DROPOUT_RATE": 0.0,
     "IM_SIZE": 224,
@@ -23,7 +23,7 @@ CONFIG = {
     "N_DENSE_2": 10,
     # Augmentation settings
     "USE_AUGMENTATION": True,
-    "AUGMENTATION_TYPE": "basic",  # Options: "basic", "mixup", "cutmix", "albumentations", "repeated"
+    "AUGMENTATION_TYPE": "mixup",  # Options: "basic", "mixup", "cutmix", "albumentations", "repeated"
     "MIXUP_ALPHA": 0.2,
     "CUTMIX_ALPHA": 0.2,
 }
