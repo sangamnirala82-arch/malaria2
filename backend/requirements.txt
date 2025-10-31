@@ -28,6 +28,8 @@ typer>=0.9.0
 # Malaria Detection Model Dependencies
 tensorflow>=2.19.0
 tensorflow-datasets>=4.9.0
+tensorflow-probability>=0.24.0
+albumentations>=1.4.0
 wandb>=0.22.0
 matplotlib>=3.7.0
 seaborn>=0.13.0
