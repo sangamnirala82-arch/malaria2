@@ -24,3 +24,13 @@ numpy>=1.26.0
 python-multipart>=0.0.9
 jq>=1.6.0
 typer>=0.9.0
+
+# Malaria Detection Model Dependencies
+tensorflow>=2.19.0
+tensorflow-datasets>=4.9.0
+wandb>=0.22.0
+matplotlib>=3.7.0
+seaborn>=0.13.0
+scikit-learn>=1.3.0
+opencv-python-headless>=4.9.0
+Pillow>=10.0.0
