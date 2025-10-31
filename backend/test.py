@@ -51,9 +51,7 @@ class MalariaModelTester:
         print(f"📂 Loading model from: {self.model_path}")
         model_name = os.path.basename(self.model_path)
         if 'best_model' in model_name:
-            print("   ℹ️  Using best_model.h5 (best validation accuracy during training)")
-        elif 'final' in model_name:
-            print("   ℹ️  Using malaria_model_final.h5 (final training state)")
+            print("   ℹ️  This is the best model (highest validation accuracy during training)")
         
         self.model = tf.keras.models.load_model(self.model_path)
         print("✅ Model loaded successfully!")
