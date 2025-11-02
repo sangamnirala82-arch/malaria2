@@ -92,6 +92,105 @@ async def get_status_checks():
     
     return status_checks
 
+# Malaria Detection Endpoint
+@api_router.post("/predict-malaria")
+async def predict_malaria(file: UploadFile = File(...)):
+    """
+    Predict whether a cell image is parasitized or uninfected
+    
+    Args:
+        file: Uploaded image file
+        
+    Returns:
+        JSON with prediction result and confidence
+    """
+    try:
+        # Check if model is loaded
+        if malaria_model is None:
+            raise HTTPException(
+                status_code=503, 
+                detail="Model not loaded. Please ensure the model file exists."
+            )
+        
+        # Validate file type
+        if not file.content_type.startswith('image/'):
+            raise HTTPException(
+                status_code=400,
+                detail="File must be an image"
+            )
+        
+        # Read and process the image
+        contents = await file.read()
+        image = Image.open(io.BytesIO(contents))
+        
+        # Convert to RGB if necessary
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+        
+        # Resize to model input size (224x224)
+        image = image.resize((224, 224))
+        
+        # Convert to array and normalize
+        img_array = np.array(image) / 255.0
+        
+        # Add batch dimension
+        img_array = np.expand_dims(img_array, axis=0)
+        
+        # Make prediction
+        prediction = malaria_model.predict(img_array, verbose=0)
+        confidence = float(prediction[0][0])
+        
+        # Determine class
+        if confidence >= 0.5:
+            result = "Parasitized"
+            confidence_percentage = confidence * 100
+        else:
+            result = "Uninfected"
+            confidence_percentage = (1 - confidence) * 100
+        
+        # Save prediction to database
+        prediction_record = {
+            "id": str(uuid.uuid4()),
+            "filename": file.filename,
+            "prediction": result,
+            "confidence": confidence_percentage,
+            "raw_score": confidence,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.predictions.insert_one(prediction_record)
+        
+        return JSONResponse(content={
+            "success": True,
+            "prediction": result,
+            "confidence": round(confidence_percentage, 2),
+            "message": f"The cell image is predicted to be {result} with {confidence_percentage:.2f}% confidence."
+        })
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error during prediction: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
+
+@api_router.get("/prediction-history")
+async def get_prediction_history(limit: int = 50):
+    """Get recent prediction history"""
+    try:
+        predictions = await db.predictions.find(
+            {}, 
+            {"_id": 0}
+        ).sort("timestamp", -1).limit(limit).to_list(limit)
+        
+        return {
+            "success": True,
+            "predictions": predictions,
+            "count": len(predictions)
+        }
+    except Exception as e:
+        logger.error(f"Error fetching prediction history: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
