@@ -21,11 +21,27 @@ CONFIG = {
     "POOL_SIZE": 2,
     "N_DENSE_1": 100,
     "N_DENSE_2": 10,
+
     # Augmentation settings
     "USE_AUGMENTATION": True,
-    "AUGMENTATION_TYPE": "basic",  # Options: "basic", "mixup", "cutmix", "albumentations", "repeated"
+
+    # Options: "basic", "mixup", "cutmix", "albumentations", "repeated"
+    # Set to "repeated" if you want to apply multiple augmentations sequentially.
+    "AUGMENTATION_TYPE": "repeated",
+
+    # Mixup / Cutmix parameters
     "MIXUP_ALPHA": 0.2,
     "CUTMIX_ALPHA": 0.2,
+
+    # Albumentations configuration
+    "ALBUMENTATIONS_TRANSFORMS": {
+        "HorizontalFlip": {"p": 0.5},
+        "RandomBrightnessContrast": {"p": 0.5},
+        "ShiftScaleRotate": {"shift_limit": 0.05, "scale_limit": 0.05, "rotate_limit": 15, "p": 0.5},
+    },
+
+    # If using repeated augmentation, define which augmentations to apply in sequence
+    "REPEATED_AUGMENTATIONS": ["basic", "mixup", "cutmix", "albumentations"],
 }
 
 # Data Split Ratios
