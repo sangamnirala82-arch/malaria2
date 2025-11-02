@@ -1,0 +1,15 @@
+{
+    "timestamp": "20251102_050555",
+    "model_path": "./models/best_model.h5",
+    "accuracy": 0.9506710192237939,
+    "precision": 0.9377682403433476,
+    "recall": 0.9639705882352941,
+    "f1_score": 0.9506889050036258,
+    "auc_score": 0.9832135037264728,
+    "total_samples": 2757,
+    "correct_predictions": 2621,
+    "class_distribution": {
+        "parasitized": 1360,
+        "uninfected": 1397
+    }
+}

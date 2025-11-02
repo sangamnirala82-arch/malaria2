@@ -1,0 +1,21 @@
+======================================================================
+MALARIA DETECTION MODEL - EVALUATION RESULTS
+======================================================================
+
+Evaluation Date: 2025-11-02 05:08:42
+Model Path: ./models/best_model.h5
+
+PERFORMANCE METRICS
+----------------------------------------------------------------------
+Accuracy:  0.9507 (95.07%)
+Precision: 0.9378 (93.78%)
+Recall:    0.9640 (96.40%)
+F1-Score:  0.9507 (95.07%)
+AUC Score: 0.9832 (98.32%)
+
+DATASET INFORMATION
+----------------------------------------------------------------------
+Total Test Samples: 2757
+Correct Predictions: 2621
+Parasitized Samples: 1360
+Uninfected Samples: 1397
