@@ -30,6 +30,27 @@ app = FastAPI()
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
+# Load the malaria detection model at startup
+malaria_model = None
+MODEL_PATH = ROOT_DIR / "models" / "best_model.h5"
+
+def load_malaria_model():
+    """Load the trained malaria detection model"""
+    global malaria_model
+    try:
+        if MODEL_PATH.exists():
+            malaria_model = tf.keras.models.load_model(str(MODEL_PATH))
+            logger.info(f"✅ Malaria detection model loaded from {MODEL_PATH}")
+        else:
+            logger.warning(f"⚠️ Model file not found at {MODEL_PATH}")
+    except Exception as e:
+        logger.error(f"❌ Error loading model: {str(e)}")
+
+@app.on_event("startup")
+async def startup_event():
+    """Load model on startup"""
+    load_malaria_model()
+
 
 # Define Models
 class StatusCheck(BaseModel):
