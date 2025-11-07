@@ -1,3 +1,10 @@
+
+
+
+https://github.com/user-attachments/assets/818f802a-cd95-4be0-96d4-e4063ba89e80
+
+
+
 # Malaria Detection Web Application
 
 ## Overview
